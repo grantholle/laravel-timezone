@@ -1,6 +1,6 @@
 {
     "name": "grantholle/laravel-timezone",
-    "description": "Sets the user's timezone based on their IP address.",
+    "description": "User timezone helpers for Laravel.",
     "keywords": [
         "grantholle",
         "laravel",
