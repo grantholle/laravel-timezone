@@ -1,0 +1,78 @@
+<?php
+
+namespace GrantHolle\Timezone;
+
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use DateTimeZone;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use IntlTimeZone;
+
+class Timezone
+{
+    public function getCurrentTimezone(): string
+    {
+        return Auth::user()?->timezone ?? config('app.timezone');
+    }
+
+    public function timezones(?string $timezone = null): Collection|string
+    {
+        $zones = collect(DateTimeZone::listIdentifiers())
+            ->mapWithKeys(function ($zoneId) {
+                $zone = IntlTimeZone::createTimeZone($zoneId);
+                $name = $zone->getDisplayName($zone->useDaylightTime());
+                $cleaned = str_replace('_', ' ', $zoneId);
+
+                return [
+                    $zoneId => "{$cleaned} ({$name})",
+                ];
+            });
+
+        if (is_null($timezone)) {
+            return $zones;
+        }
+
+        return $zones->get($timezone);
+    }
+
+    public function toLocal(null|Carbon|CarbonImmutable $date, string $format = null): null|string|CarbonImmutable
+    {
+        if (!$date) {
+            return null;
+        }
+
+        $converted = CarbonImmutable::make($date)
+            ->setTimezone($this->getCurrentTimezone());
+
+        if (!$format) {
+            return $converted;
+        }
+
+        return $converted->format($format);
+    }
+
+    public function toLocalFormatted(null|Carbon|CarbonImmutable $date, string $format = null): ?string
+    {
+        if (!$date) {
+            return null;
+        }
+
+        return $this->toLocal($date, $format ?? config('timezone.format'));
+    }
+
+    public function fromLocal(mixed $date): CarbonImmutable
+    {
+        return CarbonImmutable::parse($date, $this->getCurrentTimezone());
+    }
+
+    public function today(): CarbonImmutable
+    {
+        return CarbonImmutable::today($this->getCurrentTimezone());
+    }
+
+    public function now(): CarbonImmutable
+    {
+        return CarbonImmutable::now($this->getCurrentTimezone());
+    }
+}

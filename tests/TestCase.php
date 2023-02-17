@@ -1,36 +1,46 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace GrantHolle\Timezone\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Auth;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use GrantHolle\Timezone\TimezoneServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    public User $user;
 
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            TimezoneServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineDatabaseMigrations(): void
+    {
+        $this->loadLaravelMigrations();
+
+        $migration = include __DIR__.'/../database/migrations/add_timezone_to_users_table.php.stub';
+        $migration->up();
+    }
+
+    public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
+    }
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
-        $migration->up();
-        */
+    public function defineRoutes($router)
+    {
+        $router->post('/login', function (Request $request) {
+            $user = User::firstOrFail($request->input('id'));
+            Auth::login($user);
+
+            return response();
+        });
     }
 }

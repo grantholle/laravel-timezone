@@ -1,24 +1,26 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "grantholle/laravel-timezone",
+    "description": "Sets the user's timezone based on their IP address.",
     "keywords": [
-        ":vendor_name",
+        "grantholle",
         "laravel",
-        ":package_slug"
+        "laravel-timezone"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/grantholle/laravel-timezone",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Grant Holle",
+            "email": "hollegrant@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.1",
+        "illuminate/contracts": "^9.0|^10.0",
+        "illuminate/support": "*",
         "spatie/laravel-package-tools": "^1.14.0",
-        "illuminate/contracts": "^9.0"
+        "ext-intl": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -35,14 +37,14 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "GrantHolle\\Timezone\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
-        }
+            "GrantHolle\\Timezone\\Tests\\": "tests"
+        },
+        "files": ["src/helpers.php"]
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
@@ -61,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "GrantHolle\\Timezone\\TimezoneServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "Timezone": "GrantHolle\\Timezone\\Facades\\Timezone"
             }
         }
     },
