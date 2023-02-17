@@ -8,9 +8,6 @@ if (!function_exists('timezone')) {
     /**
      * Gets a list of all timezones
      * or the formatted name of the given timezone
-     *
-     * @param string|null $timezone
-     * @return Collection|string
      */
     function timezone(): string {
         return Timezone::getCurrentTimezone();
@@ -21,9 +18,6 @@ if (!function_exists('timezones')) {
     /**
      * Gets a list of all timezones
      * or the formatted name of the given timezone
-     *
-     * @param string|null $timezone
-     * @return Collection|string
      */
     function timezones(string $timezone = null): Collection|string {
         return Timezone::timezones($timezone);
