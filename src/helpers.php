@@ -27,7 +27,7 @@ if (!function_exists('timezones')) {
 }
 
 if (!function_exists('to_local_timezone')) {
-    function to_local_timezone(null|Carbon\Carbon|CarbonImmutable $date, string $format = null): ?string
+    function to_local_timezone(null|Carbon\Carbon|CarbonImmutable $date, string $format = null): string
     {
         return Timezone::toLocal($date, $format);
     }
