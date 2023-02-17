@@ -36,11 +36,9 @@ class Timezone
         return $zones->get($timezone);
     }
 
-    public function toLocal(null|Carbon|CarbonImmutable $date, string $format = null): null|string|CarbonImmutable
+    public function toLocal(null|Carbon|CarbonImmutable $date, string $format = null): string|CarbonImmutable
     {
-        if (!$date) {
-            return null;
-        }
+        $date = $date ?? now();
 
         $converted = CarbonImmutable::make($date)
             ->setTimezone($this->getCurrentTimezone());
@@ -52,11 +50,9 @@ class Timezone
         return $converted->format($format);
     }
 
-    public function toLocalFormatted(null|Carbon|CarbonImmutable $date, string $format = null): ?string
+    public function toLocalFormatted(null|Carbon|CarbonImmutable $date, string $format = null): string
     {
-        if (!$date) {
-            return null;
-        }
+        $date = $date ?? now();
 
         return $this->toLocal($date, $format ?? config('timezone.format'));
     }
