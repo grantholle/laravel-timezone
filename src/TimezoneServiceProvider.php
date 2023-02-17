@@ -3,7 +3,6 @@
 namespace GrantHolle\Timezone;
 
 use GrantHolle\Timezone\Listeners\SetTimezoneListener;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

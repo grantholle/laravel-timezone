@@ -3,7 +3,6 @@
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use GrantHolle\Timezone\Facades\Timezone;
-use GrantHolle\Timezone\Tests\Models\User;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -13,6 +12,7 @@ it('can detect user timezone', function (string $timezone) {
     'a user that has a timezone' => fn () => logIn()->timezone,
     'a user without a timezone' => function () {
         logIn(['timezone' => null]);
+
         return 'UTC';
     },
 ]);
@@ -55,7 +55,6 @@ it('can make local today', function () {
 
     expect($date)->toEqual(local_today());
 });
-
 
 it('can make local now', function () {
     $user = logIn();

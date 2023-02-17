@@ -38,4 +38,3 @@ return [
 
     'format' => 'F j, Y g:ia',
 ];
-

@@ -1,7 +1,5 @@
 <?php
 
-use GrantHolle\Timezone\Tests\Models\User;
-
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 beforeEach(function () {
@@ -41,8 +39,7 @@ it("won't overwrite existing values", function () {
     expect($this->user->timezone)->toEqual($timezone);
 });
 
-
-it("can overwrite existing values", function () {
+it('can overwrite existing values', function () {
     config()->set('timezone.overwrite', true);
     $timezone = 'Asia/Shanghai';
     $this->user->update(['timezone' => $timezone]);

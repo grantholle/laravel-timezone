@@ -2,13 +2,11 @@
 
 namespace GrantHolle\Timezone\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use GrantHolle\Timezone\Tests\Models\User;
+use GrantHolle\Timezone\TimezoneServiceProvider;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
 use Orchestra\Testbench\TestCase as Orchestra;
-use GrantHolle\Timezone\TimezoneServiceProvider;
 use Stevebauman\Location\LocationServiceProvider;
 
 class TestCase extends Orchestra
