@@ -36,6 +36,12 @@ if (!function_exists('to_local_timezone')) {
     }
 }
 
+if (!function_exists('from_local_timezone')) {
+    function from_local_timezone(mixed $date): CarbonImmutable {
+        return Timezone::fromLocal($date);
+    }
+}
+
 if (!function_exists('local_today')) {
     function local_today(): CarbonImmutable {
         return Timezone::today();

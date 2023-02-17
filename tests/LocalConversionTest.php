@@ -1,16 +1,20 @@
 <?php
 
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use GrantHolle\Timezone\Facades\Timezone;
 use GrantHolle\Timezone\Tests\Models\User;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-it('can detect user timezone', function (User $user) {
-    expect(timezone())->toEqual($user->timezone ?? config('app.timezone'));
+it('can detect user timezone', function (string $timezone) {
+    expect(timezone())->toEqual($timezone);
 })->with([
-    'a user that has a timezone' => fn () => logIn(),
-    'a user without a timezone' => fn () => logIn(['timezone' => null]),
+    'a user that has a timezone' => fn () => logIn()->timezone,
+    'a user without a timezone' => function () {
+        logIn(['timezone' => null]);
+        return 'UTC';
+    },
 ]);
 
 it('can convert date to local time object', function () {
@@ -34,6 +38,16 @@ it('can convert date to local time formatted', function (?string $format) {
     'just days' => 'Y-m-d',
     'day and time' => 'Y-m-d g:ia',
 ]);
+
+it('can convert from local timezone', function () {
+    $user = logIn(['timezone' => 'Asia/Shanghai']);
+    $userDate = Carbon::now($user->timezone);
+    $converted = from_local_timezone($userDate);
+    ray($userDate, $converted);
+
+    expect($userDate->toDateTimeString())
+        ->not()->toEqual($converted->toDateTimeString());
+});
 
 it('can make local today', function () {
     $user = logIn();

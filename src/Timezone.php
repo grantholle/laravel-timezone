@@ -63,7 +63,8 @@ class Timezone
 
     public function fromLocal(mixed $date): CarbonImmutable
     {
-        return CarbonImmutable::parse($date, $this->getCurrentTimezone());
+        return CarbonImmutable::parse($date, $this->getCurrentTimezone())
+            ->setTimezone(config('app.timezone'));
     }
 
     public function today(): CarbonImmutable

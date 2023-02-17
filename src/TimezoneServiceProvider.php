@@ -25,6 +25,10 @@ class TimezoneServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
-        Event::listen(Login::class, SetTimezoneListener::class);
+        $events = config('timezone.events');
+
+        if (!empty($events)) {
+            Event::listen($events, SetTimezoneListener::class);
+        }
     }
 }

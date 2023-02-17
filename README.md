@@ -5,15 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/grantholle/laravel-timezone/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/grantholle/laravel-timezone/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/grantholle/laravel-timezone.svg?style=flat-square)](https://packagist.org/packages/grantholle/laravel-timezone)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-timezone.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-timezone)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+This package detects and sets a user's timezone and provides some helpers to convert dates into a user's timezone.
 
 ## Installation
 
@@ -30,30 +22,82 @@ php artisan vendor:publish --tag="laravel-timezone-migrations"
 php artisan migrate
 ```
 
+> **Note** 
+> If you use multiple models that authenticate, you will want to add a column to each of them.
+
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="laravel-timezone-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-timezone-views"
-```
-
 ## Usage
 
+The package will automatically set a `timezone` property to the user logging in to the app. If the `overwite` option is set in the `timezone` config, it will check each time the user logs in. Under the hood, this package relies on the [stevebauman/location](https://github.com/stevebauman/location) package to detect where the user is based on IP address and the appropriate timezone. Under its hood, it's relying on Laravel's `request()->ip()` function, which relies on Symfony's `Request` object to detect IP addresses. If you're experiencing issues of detecting the wrong timezones and therefore wrong IP address, it's likely due to [trusted proxy](https://laravel.com/docs/10.x/requests#configuring-trusted-proxies) configuration issues. Check out that documentation for more details.
+
+You can change which events the timezone is set or opt out of this feature by changing the config's `events` option.
+
 ```php
-$timezone = new GrantHolle\Timezone();
-echo $timezone->echoPhrase('Hello, GrantHolle!');
+'events' => [
+    // By default, the Login event
+    \Illuminate\Auth\Events\Login::class,
+    // Another event which deals with a user
+    \App\Events\MyEvent::class,
+],
+```
+
+To ignore this feature, set `events` to be [empty](https://www.php.net/manual/en/function.empty.php).
+
+Aside from timezone detection, you can use several helpers around dates for the authenticated user.
+
+### Suggested configuration
+
+The functions that return date objects return CarbonImmutable objects. To save yourself a lot of headaches, you should use them in your application, too.
+
+In your `AppServiceProvider`'s boot function,
+
+```php
+\Illuminate\Support\Facades\Date::use(\Carbon\CarbonImmutable::class);
+```
+
+### Cheatsheet
+
+Below is a set of examples using the facade and available helper functions.
+
+```php
+use GrantHolle\Timezone\Facades\Timezone;
+
+// Get the user's or app default timezone
+$string = Timezone::getCurrentTimezone();
+$string = timezone();
+
+// Get a collection of timezones and a labeled version of them.
+// The key is the timezone and the value is a formatted label.
+Timezone::timezones();
+timezones();
+
+// Convert a date to the user's timezone
+$carbonImmutable = Timezone::toLocal($utcDate);
+$carbonImmutable = to_local_timezone($utcDate);
+
+// Optionally you can pass in a format or use
+// the toLocalFormatted function
+$string = Timezone::toLocal($utcDate, 'Y-m-d');
+$string = to_local_timezone($utcDate, 'Y-m-d');
+// Leaving out the last parameter will use the config's format value
+$string = Timezone::toLocalFormatted($utcDate, 'Y-m-d');
+
+// Convert user's dates to your app's timezone.
+// It relies on Carbon's `parse` function, so you
+// can pass many things to it to parse.
+$carbonImmutable = Timezone::fromLocal($usersDate);
+$carbonImmutable = from_local_timezone($usersDate);
+
+// Helpers to get the user's "today" and "now" values
+$carbonImmutable = Timezone::today();
+$carbonImmutable = local_today();
+$carbonImmutable = Timezone::now();
+$carbonImmutable = local_now();
 ```
 
 ## Testing

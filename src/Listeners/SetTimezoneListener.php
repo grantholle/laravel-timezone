@@ -2,19 +2,25 @@
 
 namespace GrantHolle\Timezone\Listeners;
 
-use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Auth;
 use Stevebauman\Location\Facades\Location;
 
 class SetTimezoneListener
 {
-    public function handle(Login $event): void
+    public function handle($event): void
     {
+        if (empty(config('timezone.events'))) {
+            return;
+        }
+
+        $user = $event->user ?? Auth::user();
+
         if (
-            (!$event->user->timezone || config('timezone.overwrite')) &&
+            (!$user->timezone || config('timezone.overwrite')) &&
             $position = Location::get()
         ) {
-            $event->user->timezone = $position->timezone;
-            $event->user->save();
+            $user->timezone = $position->timezone;
+            $user->save();
         }
     }
 }
