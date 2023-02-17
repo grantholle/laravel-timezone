@@ -22,6 +22,6 @@ return [
     |
     */
 
-    'format' => 'jS F Y g:i:a',
+    'format' => 'F j, Y g:ia',
 ];
 
