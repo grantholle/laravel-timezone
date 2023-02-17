@@ -3,12 +3,13 @@
 namespace GrantHolle\Timezone\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Auth\User;
+use GrantHolle\Timezone\Tests\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Auth;
 use Orchestra\Testbench\TestCase as Orchestra;
 use GrantHolle\Timezone\TimezoneServiceProvider;
+use Stevebauman\Location\LocationServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -18,6 +19,7 @@ class TestCase extends Orchestra
     {
         return [
             TimezoneServiceProvider::class,
+            LocationServiceProvider::class,
         ];
     }
 
@@ -36,11 +38,12 @@ class TestCase extends Orchestra
 
     public function defineRoutes($router)
     {
+        // This mocks a login to trigger the event
         $router->post('/login', function (Request $request) {
-            $user = User::firstOrFail($request->input('id'));
+            $user = User::findOrFail($request->input('id'));
             Auth::login($user);
 
-            return response();
+            return response()->json();
         });
     }
 }

@@ -2,6 +2,9 @@
 
 namespace GrantHolle\Timezone;
 
+use GrantHolle\Timezone\Listeners\SetTimezoneListener;
+use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Event;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -18,5 +21,10 @@ class TimezoneServiceProvider extends PackageServiceProvider
             ->name('laravel-timezone')
             ->hasConfigFile()
             ->hasMigration('add_timezone_to_users_table');
+    }
+
+    public function packageRegistered()
+    {
+        Event::listen(Login::class, SetTimezoneListener::class);
     }
 }
