@@ -18,7 +18,7 @@ composer require grantholle/laravel-timezone
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-timezone-migrations"
+php artisan vendor:publish --tag="timezone-migrations"
 php artisan migrate
 ```
 
@@ -28,7 +28,7 @@ php artisan migrate
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-timezone-config"
+php artisan vendor:publish --tag="timezone-config"
 ```
 
 ## Usage
