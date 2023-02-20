@@ -39,13 +39,13 @@
     "autoload": {
         "psr-4": {
             "GrantHolle\\Timezone\\": "src"
-        }
+        },
+        "files": ["src/helpers.php"]
     },
     "autoload-dev": {
         "psr-4": {
             "GrantHolle\\Timezone\\Tests\\": "tests"
-        },
-        "files": ["src/helpers.php"]
+        }
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
