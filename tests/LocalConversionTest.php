@@ -22,17 +22,18 @@ it('can convert date to local time object', function () {
     $date = CarbonImmutable::create(2000, 4, 1, 15);
     $expected = $date->setTimezone($user->timezone);
 
-    expect($expected)->toEqual(Timezone::toLocal($date))
-        ->and($expected)->toEqual(to_local_timezone($date));
+    expect($expected)->toEqual(Timezone::toLocal($date));
 });
 
 it('can convert date to local time formatted', function (?string $format) {
     $user = logIn();
     $date = CarbonImmutable::create(2000, 4, 1, 15);
-    $expected = $date->setTimezone($user->timezone);
     $format = $format ?? config('timezone.format');
+    $expected = $date->setTimezone($user->timezone)
+        ->format($format);
 
-    expect($expected->format($format))->toEqual(Timezone::toLocalFormatted($date, $format));
+    expect($expected)->toEqual(Timezone::toLocalFormatted($date, $format))
+        ->and($expected)->toEqual(to_local_timezone($date, $format));
 })->with([
     'using default format' => null,
     'just days' => 'Y-m-d',
@@ -43,7 +44,6 @@ it('can convert from local timezone', function () {
     $user = logIn(['timezone' => 'Asia/Shanghai']);
     $userDate = Carbon::now($user->timezone);
     $converted = from_local_timezone($userDate);
-    ray($userDate, $converted);
 
     expect($userDate->toDateTimeString())
         ->not()->toEqual($converted->toDateTimeString());
