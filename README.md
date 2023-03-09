@@ -78,14 +78,15 @@ timezones();
 
 // Convert a date to the user's timezone
 $carbonImmutable = Timezone::toLocal($utcDate);
-$carbonImmutable = to_local_timezone($utcDate);
 
 // Optionally you can pass in a format or use
 // the toLocalFormatted function
 $string = Timezone::toLocal($utcDate, 'Y-m-d');
 $string = to_local_timezone($utcDate, 'Y-m-d');
-// Leaving out the last parameter will use the config's format value
-$string = Timezone::toLocalFormatted($utcDate, 'Y-m-d');
+
+// Leaving out the last parameter will use the config's `format` value
+$string = Timezone::toLocalFormatted($utcDate);
+$carbonImmutable = to_local_timezone($utcDate);
 
 // Convert user's dates to your app's timezone.
 // It relies on Carbon's `parse` function, so you
