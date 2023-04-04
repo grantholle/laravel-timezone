@@ -13,7 +13,7 @@ class Timezone
 {
     public function getCurrentTimezone(): string
     {
-        return Auth::user()?->timezone ?? config('app.timezone');
+        return Auth::user()?->timezone ?: config('app.timezone');
     }
 
     public function timezones(?string $timezone = null): Collection|string
