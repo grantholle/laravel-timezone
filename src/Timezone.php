@@ -13,6 +13,7 @@ class Timezone
 {
     public function getCurrentTimezone(): string
     {
+        /** @noinspection PhpUndefinedFieldInspection @phpstan-ignore-next-line */
         return Auth::user()?->timezone ?: config('app.timezone');
     }
 
