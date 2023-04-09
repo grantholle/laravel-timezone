@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use GrantHolle\Timezone\Facades\Timezone;
+use Illuminate\Support\Facades\Config;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -23,6 +24,17 @@ it('can convert date to local time object', function () {
     $expected = $date->setTimezone($user->timezone);
 
     expect($expected)->toEqual(Timezone::toLocal($date));
+});
+
+it('can display in the fallback timezone', function () {
+    $user = logIn(['timezone' => null]);
+    Config::set('timezone.fallback', 'Asia/Shanghai');
+    $date = CarbonImmutable::create(2000, 4);
+    $converted = $date->setTimezone('Asia/Shanghai');
+
+    expect($user->timezone)->toBeNull()
+        ->and(to_local_timezone($date))
+        ->toBe($converted->format(config('timezone.format')));
 });
 
 it('can convert date to local time formatted', function (?string $format) {

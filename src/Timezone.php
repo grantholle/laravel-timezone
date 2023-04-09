@@ -13,8 +13,10 @@ class Timezone
 {
     public function getCurrentTimezone(): string
     {
+        $fallback = config('timezone.fallback') ?: config('app.timezone');
+
         /** @noinspection PhpUndefinedFieldInspection @phpstan-ignore-next-line */
-        return Auth::user()?->timezone ?: config('app.timezone');
+        return Auth::user()?->timezone ?: $fallback;
     }
 
     public function timezones(?string $timezone = null): Collection|string

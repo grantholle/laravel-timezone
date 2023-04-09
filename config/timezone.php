@@ -37,4 +37,16 @@ return [
     */
 
     'format' => 'F j, Y g:ia',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback timezone
+    |--------------------------------------------------------------------------
+    |
+    | Instead of using the app timezone, you can set a fallback timezone
+    | to use to display when the user's timezone cannot be determined.
+    |
+    */
+
+    'fallback' => env('FALLBACK_TIMEZONE', 'UTC'),
 ];
