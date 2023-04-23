@@ -25,7 +25,7 @@ return [
     |
     */
 
-    'overwrite' => false,
+    'overwrite' => env('TIMEZONE_OVERWRITE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,7 +36,7 @@ return [
     |
     */
 
-    'format' => 'F j, Y g:ia',
+    'format' => env('TIMEZONE_FORMAT', 'F j, Y g:ia'),
 
     /*
     |--------------------------------------------------------------------------
