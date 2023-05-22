@@ -77,6 +77,7 @@ Timezone::timezones();
 timezones();
 
 // Convert a date to the user's timezone
+// This will return a CarbonImmutable instance
 $carbonImmutable = Timezone::toLocal($utcDate);
 
 // Optionally you can pass in a format or use
