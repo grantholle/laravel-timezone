@@ -15,8 +15,11 @@ class Timezone
     {
         $fallback = config('timezone.fallback') ?: config('app.timezone');
 
-        /** @noinspection PhpUndefinedFieldInspection @phpstan-ignore-next-line */
-        return Auth::user()?->timezone ?: $fallback;
+        if ($timezone = Auth::user()?->timezone ?? null) {
+            return $timezone;
+        }
+
+        return $fallback;
     }
 
     public function timezones(?string $timezone = null): Collection|string
