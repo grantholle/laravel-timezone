@@ -2,6 +2,7 @@
 
 namespace GrantHolle\Timezone\Tests;
 
+use GrantHolle\Timezone\Tests\Drivers\LocalTestDriver;
 use GrantHolle\Timezone\Tests\Models\User;
 use GrantHolle\Timezone\TimezoneServiceProvider;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'testing');
+        config()->set('location.driver', LocalTestDriver::class);
     }
 
     public function defineRoutes($router)
