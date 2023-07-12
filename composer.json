@@ -21,7 +21,7 @@
         "illuminate/contracts": "^9.0|^10.0",
         "illuminate/support": "^9.0|^10.0",
         "spatie/laravel-package-tools": "^1.14.0",
-        "stevebauman/location": "^6.6"
+        "stevebauman/location": "^7.0"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
