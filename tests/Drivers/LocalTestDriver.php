@@ -9,7 +9,6 @@ use Stevebauman\Location\Request;
 
 class LocalTestDriver extends Driver
 {
-
     protected function process(Request $request): Fluent|false
     {
         return new Fluent([
