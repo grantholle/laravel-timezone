@@ -42,7 +42,7 @@ class Timezone
         return $zones->get($timezone);
     }
 
-    public function toLocal(null|Carbon|CarbonImmutable $date, string $format = null): string|CarbonImmutable
+    public function toLocal(null|Carbon|CarbonImmutable $date, ?string $format = null): string|CarbonImmutable
     {
         $date = $date ?? now();
 
@@ -56,7 +56,7 @@ class Timezone
         return $converted->format($format);
     }
 
-    public function toLocalFormatted(null|Carbon|CarbonImmutable $date, string $format = null): string
+    public function toLocalFormatted(null|Carbon|CarbonImmutable $date, ?string $format = null): string
     {
         $date = $date ?? now();
 

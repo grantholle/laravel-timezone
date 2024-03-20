@@ -20,14 +20,14 @@ if (!function_exists('timezones')) {
      * Gets a list of all timezones
      * or the formatted name of the given timezone
      */
-    function timezones(string $timezone = null): Collection|string
+    function timezones(?string $timezone = null): Collection|string
     {
         return Timezone::timezones($timezone);
     }
 }
 
 if (!function_exists('to_local_timezone')) {
-    function to_local_timezone(null|Carbon\Carbon|CarbonImmutable $date, string $format = null): string
+    function to_local_timezone(null|Carbon\Carbon|CarbonImmutable $date, ?string $format = null): string
     {
         return Timezone::toLocalFormatted($date, $format);
     }

@@ -1,7 +1,5 @@
 <?php
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
-
 beforeEach(function () {
     test()->user = seedUser(['timezone' => null]);
 });

@@ -7,9 +7,12 @@ use GrantHolle\Timezone\Tests\Models\User;
 use GrantHolle\Timezone\TimezoneServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Stevebauman\Location\LocationServiceProvider;
 
+#[WithMigration]
 class TestCase extends Orchestra
 {
     public User $user;
@@ -32,8 +35,8 @@ class TestCase extends Orchestra
 
     public function getEnvironmentSetUp($app): void
     {
-        config()->set('database.default', 'testing');
-        config()->set('location.driver', LocalTestDriver::class);
+        $app['config']->set('database.default', 'testing');
+        $app['config']->set('location.driver', LocalTestDriver::class);
     }
 
     public function defineRoutes($router)
