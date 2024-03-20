@@ -7,7 +7,6 @@ use GrantHolle\Timezone\Tests\Models\User;
 use GrantHolle\Timezone\TimezoneServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Stevebauman\Location\LocationServiceProvider;
