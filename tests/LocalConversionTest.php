@@ -5,8 +5,6 @@ use Carbon\CarbonImmutable;
 use GrantHolle\Timezone\Facades\Timezone;
 use Illuminate\Support\Facades\Config;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
-
 it('can detect user timezone', function (string $timezone) {
     expect(timezone())->toEqual($timezone);
 })->with([

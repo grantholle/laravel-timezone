@@ -9,3 +9,5 @@ phpstan.neon
 testbench.yaml
 vendor
 node_modules
+.phpunit.cache/test-results
+phpunit.xml.dist.bak
